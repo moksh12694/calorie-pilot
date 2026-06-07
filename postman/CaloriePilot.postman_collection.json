@@ -1,0 +1,346 @@
+{
+  "info": {
+    "name": "CaloriePilot API",
+    "description": "Postman collection for CaloriePilot.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /auth/signup",
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "const json = pm.response.json();",
+              "if (json.success) {",
+              "  pm.environment.set('accessToken', json.data.accessToken);",
+              "  pm.environment.set('refreshToken', json.data.refreshToken);",
+              "  pm.environment.set('userId', json.data.user.id);",
+              "}"
+            ]}}
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"correct-horse-battery\",\n  \"name\": \"Alice\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/signup", "host": ["{{baseUrl}}"], "path": ["auth", "signup"] }
+          }
+        },
+        {
+          "name": "POST /auth/login",
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [
+              "const json = pm.response.json();",
+              "if (json.success) {",
+              "  pm.environment.set('accessToken', json.data.accessToken);",
+              "  pm.environment.set('refreshToken', json.data.refreshToken);",
+              "}"
+            ]}}
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"correct-horse-battery\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "POST /auth/refresh",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/refresh", "host": ["{{baseUrl}}"], "path": ["auth", "refresh"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Steps",
+      "item": [
+        {
+          "name": "POST /steps/sync",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"date\": \"2026-05-31\",\n  \"steps\": 8500,\n  \"distanceM\": 6200.5,\n  \"calories\": 320.5\n}" },
+            "url": { "raw": "{{baseUrl}}/steps/sync", "host": ["{{baseUrl}}"], "path": ["steps", "sync"] }
+          }
+        },
+        {
+          "name": "GET /steps/today",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/steps/today", "host": ["{{baseUrl}}"], "path": ["steps", "today"] }
+          }
+        },
+        {
+          "name": "GET /steps/history",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/steps/history?from=2026-05-01&to=2026-05-31",
+              "host": ["{{baseUrl}}"], "path": ["steps", "history"],
+              "query": [
+                { "key": "from", "value": "2026-05-01" },
+                { "key": "to",   "value": "2026-05-31" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /steps/goal",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/steps/goal", "host": ["{{baseUrl}}"], "path": ["steps", "goal"] }
+          }
+        },
+        {
+          "name": "PUT /steps/goal",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"dailyStepGoal\": 12000\n}" },
+            "url": { "raw": "{{baseUrl}}/steps/goal", "host": ["{{baseUrl}}"], "path": ["steps", "goal"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Food",
+      "item": [
+        {
+          "name": "GET /foods?q=banana",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/foods?q=banana&limit=20",
+              "host": ["{{baseUrl}}"], "path": ["foods"],
+              "query": [
+                { "key": "q", "value": "banana" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /foods (custom)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Homemade Smoothie\",\n  \"servingSizeG\": 300,\n  \"calories\": 250,\n  \"proteinG\": 12,\n  \"carbsG\": 30,\n  \"fatG\": 8\n}" },
+            "url": { "raw": "{{baseUrl}}/foods", "host": ["{{baseUrl}}"], "path": ["foods"] }
+          }
+        },
+        {
+          "name": "POST /meals",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"date\": \"2026-05-31\",\n  \"meal\": \"BREAKFAST\",\n  \"foodId\": 1,\n  \"servings\": 1\n}" },
+            "url": { "raw": "{{baseUrl}}/meals", "host": ["{{baseUrl}}"], "path": ["meals"] }
+          }
+        },
+        {
+          "name": "DELETE /meals/{id}",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/meals/1", "host": ["{{baseUrl}}"], "path": ["meals", "1"] }
+          }
+        },
+        {
+          "name": "GET /meals/daily?date=...",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/meals/daily?date=2026-05-31",
+              "host": ["{{baseUrl}}"], "path": ["meals", "daily"],
+              "query": [{ "key": "date", "value": "2026-05-31" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Water",
+      "item": [
+        {
+          "name": "POST /water",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"date\": \"2026-05-31\",\n  \"amountMl\": 250\n}" },
+            "url": { "raw": "{{baseUrl}}/water", "host": ["{{baseUrl}}"], "path": ["water"] }
+          }
+        },
+        {
+          "name": "GET /water?date=...",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/water?date=2026-05-31",
+              "host": ["{{baseUrl}}"], "path": ["water"],
+              "query": [{ "key": "date", "value": "2026-05-31" }]
+            }
+          }
+        },
+        {
+          "name": "DELETE /water/{id}",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/water/1", "host": ["{{baseUrl}}"], "path": ["water", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Weight",
+      "item": [
+        {
+          "name": "POST /weight",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"date\": \"2026-05-31\",\n  \"weightKg\": 72.5,\n  \"note\": \"morning\"\n}" },
+            "url": { "raw": "{{baseUrl}}/weight", "host": ["{{baseUrl}}"], "path": ["weight"] }
+          }
+        },
+        {
+          "name": "GET /weight/history",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/weight/history?from=2026-03-01&to=2026-05-31",
+              "host": ["{{baseUrl}}"], "path": ["weight", "history"],
+              "query": [
+                { "key": "from", "value": "2026-03-01" },
+                { "key": "to",   "value": "2026-05-31" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE /weight/{id}",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/weight/1", "host": ["{{baseUrl}}"], "path": ["weight", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "GET /analytics/daily",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/analytics/daily?date=2026-05-31", "host": ["{{baseUrl}}"], "path": ["analytics", "daily"],
+              "query": [{ "key": "date", "value": "2026-05-31" }] }
+          }
+        },
+        {
+          "name": "GET /analytics/weekly",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/analytics/weekly", "host": ["{{baseUrl}}"], "path": ["analytics", "weekly"] }
+          }
+        },
+        {
+          "name": "GET /analytics/monthly",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/analytics/monthly", "host": ["{{baseUrl}}"], "path": ["analytics", "monthly"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Achievements",
+      "item": [
+        {
+          "name": "GET /achievements",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/achievements", "host": ["{{baseUrl}}"], "path": ["achievements"] }
+          }
+        },
+        {
+          "name": "GET /achievements/streak",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/achievements/streak", "host": ["{{baseUrl}}"], "path": ["achievements", "streak"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Push",
+      "item": [
+        {
+          "name": "POST /push/register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"expoPushToken\": \"ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]\",\n  \"platform\": \"ios\"\n}" },
+            "url": { "raw": "{{baseUrl}}/push/register", "host": ["{{baseUrl}}"], "path": ["push", "register"] }
+          }
+        },
+        {
+          "name": "DELETE /push/register",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/push/register?token=ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]",
+              "host": ["{{baseUrl}}"], "path": ["push", "register"],
+              "query": [{ "key": "token", "value": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET /users/me",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/users/me", "host": ["{{baseUrl}}"], "path": ["users", "me"] }
+          }
+        },
+        {
+          "name": "PATCH /users/me",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Alice Updated\",\n  \"timezone\": \"America/New_York\",\n  \"heightCm\": 168.0\n}" },
+            "url": { "raw": "{{baseUrl}}/users/me", "host": ["{{baseUrl}}"], "path": ["users", "me"] }
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api" },
+    { "key": "accessToken", "value": "" },
+    { "key": "refreshToken", "value": "" }
+  ]
+}

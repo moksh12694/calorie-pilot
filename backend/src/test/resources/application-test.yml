@@ -1,0 +1,15 @@
+# Inherits application.yml; Testcontainers injects the datasource via @ServiceConnection.
+app:
+  security:
+    jwt:
+      secret: test-secret-is-at-least-32-bytes-long-for-hmac-sha256-please
+      access-token-ttl-minutes: 5
+      refresh-token-ttl-days: 1
+  notifications:
+    expo-endpoint: http://localhost:0/dev-null
+  cors:
+    allowed-origins: "*"
+
+logging:
+  level:
+    com.caloriepilot: INFO

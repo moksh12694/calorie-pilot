@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: caloriepilot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${POSTGRES_DB:-caloriepilot}
+      POSTGRES_USER:     ${POSTGRES_USER:-caloriepilot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-caloriepilot}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-caloriepilot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    container_name: caloriepilot-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      DB_URL:       jdbc:postgresql://postgres:5432/${POSTGRES_DB:-caloriepilot}
+      DB_USER:      ${POSTGRES_USER:-caloriepilot}
+      DB_PASSWORD:  ${POSTGRES_PASSWORD:-caloriepilot}
+      JWT_SECRET:        ${JWT_SECRET:-change-me-in-production-this-must-be-at-least-32-bytes-long-secret}
+      JWT_ACCESS_TTL:    ${JWT_ACCESS_TTL:-60}
+      JWT_REFRESH_TTL:   ${JWT_REFRESH_TTL:-30}
+      CORS_ORIGINS:      ${CORS_ORIGINS:-*}
+      EXPO_PUSH_ENDPOINT: ${EXPO_PUSH_ENDPOINT:-https://exp.host/--/api/v2/push/send}
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:

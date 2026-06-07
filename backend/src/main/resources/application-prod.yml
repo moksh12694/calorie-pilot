@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+logging:
+  level:
+    com.caloriepilot: INFO
+    org.hibernate: WARN
+    root: WARN
+
+management:
+  endpoint:
+    health:
+      show-details: never

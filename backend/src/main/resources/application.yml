@@ -1,0 +1,66 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: caloriepilot-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/caloriepilot}
+    username: ${DB_USER:caloriepilot}
+    password: ${DB_PASSWORD:caloriepilot}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+
+app:
+  notifications:
+    expo-endpoint: ${EXPO_PUSH_ENDPOINT:https://exp.host/--/api/v2/push/send}
+  security:
+    jwt:
+      secret: ${JWT_SECRET:change-me-in-production-this-must-be-at-least-32-bytes-long-secret}
+      access-token-ttl-minutes: ${JWT_ACCESS_TTL:60}
+      refresh-token-ttl-days: ${JWT_REFRESH_TTL:30}
+      issuer: caloriepilot
+  cors:
+    allowed-origins: ${CORS_ORIGINS:*}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+logging:
+  level:
+    com.caloriepilot: INFO
+    org.hibernate.SQL: WARN

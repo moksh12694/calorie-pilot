@@ -1,0 +1,180 @@
+###############################################################################
+# Java / Maven / Gradle
+###############################################################################
+target/
+build/
+out/
+bin/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.log
+hs_err_pid*
+replay_pid*
+.mvn/wrapper/maven-wrapper.jar
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+###############################################################################
+# Spring Boot
+###############################################################################
+spring-boot-*.log
+*.original
+HELP.md
+
+###############################################################################
+# IDEs / Editors
+###############################################################################
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+.factorypath
+.apt_generated/
+.apt_generated_test/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# Sublime / Vim / Emacs
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.\#*
+\#*\#
+
+###############################################################################
+# Node / npm / Yarn / pnpm
+###############################################################################
+node_modules/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+pnpm-debug.log*
+.npm/
+.pnp.*
+.yarn/cache
+.yarn/install-state.gz
+package-lock.json.bak
+
+###############################################################################
+# Expo / React Native
+###############################################################################
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native build outputs
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+ios/build/
+ios/Pods/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+*.jks
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
+*.cer
+
+# Metro / Watchman
+.metro-health-check*
+.watchmanconfig
+
+# EAS
+.easignore.local
+
+###############################################################################
+# Build artifacts (app binaries)
+###############################################################################
+*.apk
+*.aab
+*.ipa
+*.app
+
+###############################################################################
+# Environment files & secrets
+###############################################################################
+.env
+.env.local
+.env.*.local
+.env.development
+.env.staging
+.env.production
+*.pem
+*.key
+*.crt
+secrets/
+*.secret
+
+###############################################################################
+# Logs / coverage / temp
+###############################################################################
+*.log
+logs/
+coverage/
+.nyc_output/
+*.lcov
+.cache/
+tmp/
+temp/
+.tmp/
+
+###############################################################################
+# Testing
+###############################################################################
+test-results/
+playwright-report/
+test-output/
+.surefire-reports/
+.failsafe-reports/
+
+###############################################################################
+# Docker
+###############################################################################
+docker-compose.override.yml
+*.pid
+
+###############################################################################
+# OS files
+###############################################################################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+###############################################################################
+# Personal / local-only documentation (do NOT push)
+###############################################################################
+CODE_WALKTHROUGH.md
+INTERVIEW_QUESTIONS.md
+VALIDATION_AND_TESTING.md
+docs/
